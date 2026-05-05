@@ -390,6 +390,147 @@
     textarea { min-height: 100px; resize: vertical; }
     #quote { background: linear-gradient(180deg, rgba(212,175,55,0.04), transparent 60%); }
 
+    /* Calendar widget */
+    .calendar-widget {
+      background: var(--bg-card);
+      border: 1px solid var(--gold-faint);
+      padding: 20px;
+      position: relative;
+    }
+    .calendar-widget::before, .calendar-widget::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid var(--gold);
+      pointer-events: none;
+    }
+    .calendar-widget::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .calendar-widget::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+    .cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .cal-month-label {
+      font-family: var(--display);
+      font-size: 15px;
+      color: var(--gold);
+      letter-spacing: 0.06em;
+      font-weight: 600;
+    }
+    .cal-nav {
+      background: transparent;
+      border: 1px solid var(--gold-faint);
+      color: var(--gold);
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s;
+      font-family: var(--display);
+    }
+    .cal-nav:hover { background: rgba(212, 175, 55, 0.08); border-color: var(--gold); }
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .cal-weekdays span {
+      text-align: center;
+      font-size: 10px;
+      color: var(--gold-bright);
+      font-family: var(--display);
+      letter-spacing: 0.1em;
+      padding: 4px 0;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: rgba(255, 255, 255, 0.02);
+      user-select: none;
+    }
+    .cal-day:hover:not(.cal-day-disabled):not(.cal-day-empty) {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+    }
+    .cal-day-empty { background: transparent; cursor: default; }
+    .cal-day-disabled { color: rgba(245, 241, 232, 0.15); cursor: not-allowed; background: transparent; }
+    .cal-day-today {
+      color: var(--gold-bright);
+      font-weight: 700;
+      box-shadow: inset 0 0 0 1px var(--gold-faint);
+    }
+    .cal-day-selected, .cal-day-selected:hover {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: var(--bg) !important;
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+    .cal-time-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--gold-faint);
+    }
+    .cal-time-label {
+      font-family: var(--display);
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .cal-times {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+    .cal-time {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--gold-faint);
+      color: var(--text);
+      padding: 10px 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      font-family: inherit;
+      letter-spacing: 0.02em;
+    }
+    .cal-time:hover { border-color: var(--gold-dim); color: var(--gold); background: rgba(212, 175, 55, 0.04); }
+    .cal-time-selected, .cal-time-selected:hover {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+      color: var(--bg);
+      border-color: var(--gold);
+      font-weight: 600;
+    }
+    .cal-summary {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background: rgba(212, 175, 55, 0.06);
+      border: 1px solid var(--gold-dim);
+      text-align: center;
+      font-size: 13px;
+      color: var(--gold-bright);
+      letter-spacing: 0.03em;
+    }
+
     /* Footer */
     footer {
       background: #050505;
@@ -796,6 +937,29 @@
               </select>
             </div>
           </div>
+          <div>
+            <label>Preferred Schedule</label>
+            <div class="calendar-widget">
+              <div class="cal-header">
+                <button type="button" class="cal-nav" id="calPrev" aria-label="Previous month">‹</button>
+                <div class="cal-month-label" id="calMonthLabel"></div>
+                <button type="button" class="cal-nav" id="calNext" aria-label="Next month">›</button>
+              </div>
+              <div class="cal-weekdays">
+                <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+              </div>
+              <div class="cal-grid" id="calGrid"></div>
+              <div class="cal-time-section" id="calTimeSection" style="display:none;">
+                <div class="cal-time-label">Select a time (9am – 8pm)</div>
+                <div class="cal-times" id="calTimes"></div>
+              </div>
+              <div class="cal-summary" id="calSummary" style="display:none;">
+                <span id="calSummaryText"></span>
+              </div>
+              <input type="hidden" name="preferred_date" id="calSelectedDate" />
+              <input type="hidden" name="preferred_time" id="calSelectedTime" />
+            </div>
+          </div>
           <div><label>Notes (optional)</label><textarea></textarea></div>
           <button type="submit" class="btn btn-primary" style="justify-self:start;">Send Quote Request</button>
         </form>
@@ -843,5 +1007,121 @@
     </div>
   </footer>
 
+  <script>
+    (function() {
+      const monthLabel = document.getElementById('calMonthLabel');
+      const grid = document.getElementById('calGrid');
+      const prev = document.getElementById('calPrev');
+      const next = document.getElementById('calNext');
+      const timeSection = document.getElementById('calTimeSection');
+      const timesContainer = document.getElementById('calTimes');
+      const dateInput = document.getElementById('calSelectedDate');
+      const timeInput = document.getElementById('calSelectedTime');
+      const summary = document.getElementById('calSummary');
+      const summaryText = document.getElementById('calSummaryText');
+
+      const monthNames = ['January','February','March','April','May','June',
+                          'July','August','September','October','November','December'];
+      const timeSlots = ['9:00 AM','10:00 AM','11:00 AM','12:00 PM',
+                         '1:00 PM','2:00 PM','3:00 PM','4:00 PM',
+                         '5:00 PM','6:00 PM','7:00 PM','8:00 PM'];
+
+      const today = new Date(); today.setHours(0,0,0,0);
+      let viewYear = today.getFullYear();
+      let viewMonth = today.getMonth();
+      let selectedDate = null;
+      let selectedTime = null;
+
+      function sameDay(a, b) {
+        return a && b && a.getFullYear() === b.getFullYear()
+          && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+      }
+
+      function renderCalendar() {
+        monthLabel.textContent = monthNames[viewMonth] + ' ' + viewYear;
+        grid.innerHTML = '';
+
+        const firstWeekday = new Date(viewYear, viewMonth, 1).getDay();
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        for (let i = 0; i < firstWeekday; i++) {
+          const empty = document.createElement('div');
+          empty.className = 'cal-day cal-day-empty';
+          grid.appendChild(empty);
+        }
+
+        for (let d = 1; d <= daysInMonth; d++) {
+          const cell = document.createElement('div');
+          cell.className = 'cal-day';
+          cell.textContent = d;
+          const cellDate = new Date(viewYear, viewMonth, d);
+
+          if (cellDate < today) {
+            cell.classList.add('cal-day-disabled');
+          } else {
+            cell.addEventListener('click', () => selectDate(cellDate));
+          }
+          if (sameDay(cellDate, today)) cell.classList.add('cal-day-today');
+          if (sameDay(cellDate, selectedDate)) cell.classList.add('cal-day-selected');
+
+          grid.appendChild(cell);
+        }
+      }
+
+      function selectDate(date) {
+        selectedDate = date;
+        dateInput.value = date.toLocaleDateString('en-US',
+          { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+        renderCalendar();
+        renderTimes();
+        updateSummary();
+      }
+
+      function renderTimes() {
+        timesContainer.innerHTML = '';
+        timeSlots.forEach(slot => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cal-time';
+          btn.textContent = slot;
+          if (selectedTime === slot) btn.classList.add('cal-time-selected');
+          btn.addEventListener('click', () => selectTime(slot));
+          timesContainer.appendChild(btn);
+        });
+        timeSection.style.display = 'block';
+      }
+
+      function selectTime(slot) {
+        selectedTime = slot;
+        timeInput.value = slot;
+        renderTimes();
+        updateSummary();
+      }
+
+      function updateSummary() {
+        if (selectedDate && selectedTime) {
+          const formatted = selectedDate.toLocaleDateString('en-US',
+            { weekday: 'long', month: 'long', day: 'numeric' });
+          summaryText.textContent = '✦ ' + formatted + ' at ' + selectedTime + ' ✦';
+          summary.style.display = 'block';
+        } else {
+          summary.style.display = 'none';
+        }
+      }
+
+      prev.addEventListener('click', () => {
+        viewMonth--;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        renderCalendar();
+      });
+      next.addEventListener('click', () => {
+        viewMonth++;
+        if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        renderCalendar();
+      });
+
+      renderCalendar();
+    })();
+  </script>
 </body>
 </html>
