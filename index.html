@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;500;600&display=swap">
+  <title>Jimmy's Cleaning Genies — Window Washing & Lawn Care in Utah</title>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg-elev: #141414;
+      --bg-card: #161616;
+      --gold: #d4af37;
+      --gold-bright: #f0d27a;
+      --gold-deep: #b8941f;
+      --gold-dim: rgba(212, 175, 55, 0.45);
+      --gold-faint: rgba(212, 175, 55, 0.12);
+      --text: #f5f1e8;
+      --text-muted: #a89e88;
+      --display: 'Cinzel', 'Playfair Display', Georgia, serif;
+      /* Backward-compat aliases for inline styles */
+      --ink: var(--text);
+      --muted: var(--text-muted);
+      --line: var(--gold-dim);
+      --box: var(--bg-card);
+      --accent: var(--gold);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse 1200px 600px at 50% -10%, #1a140a 0%, transparent 70%),
+        var(--bg);
+      background-attachment: fixed;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    a { color: var(--gold); }
+
+    h1, h2, h3, h4 {
+      font-family: var(--display);
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      margin: 0 0 16px;
+    }
+    h1 {
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1.15;
+      background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    h1::before {
+      content: '✦  ✦  ✦';
+      display: block;
+      color: var(--gold);
+      -webkit-text-fill-color: var(--gold);
+      font-size: 14px;
+      letter-spacing: 0.4em;
+      margin-bottom: 24px;
+      font-family: var(--display);
+    }
+    h2 { font-size: 34px; color: var(--gold); text-align: center; margin-bottom: 8px; }
+    h3 { font-size: 19px; color: var(--gold-bright); }
+    p { margin: 0 0 12px; color: var(--text-muted); }
+
+    /* Decorative gold ornament between sections */
+    section {
+      padding: 96px 0;
+      position: relative;
+    }
+    section + section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      height: 14px;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 14'><line x1='0' y1='7' x2='80' y2='7' stroke='%23d4af37' stroke-width='0.6' opacity='0.6'/><line x1='140' y1='7' x2='220' y2='7' stroke='%23d4af37' stroke-width='0.6' opacity='0.6'/><circle cx='86' cy='7' r='1.4' fill='%23d4af37'/><circle cx='134' cy='7' r='1.4' fill='%23d4af37'/><path d='M110 1 L117 7 L110 13 L103 7 Z' fill='%23d4af37'/></svg>") center no-repeat;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 14px 30px;
+      border: 1px solid var(--gold);
+      background: transparent;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 12px;
+      font-family: var(--display);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: var(--gold);
+      color: var(--bg);
+      box-shadow: 0 0 28px rgba(212, 175, 55, 0.3);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold) 60%, var(--gold-deep));
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+      color: var(--bg);
+    }
+
+    /* Header */
+    header {
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--gold-dim);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+    }
+    .logo {
+      width: auto;
+      height: auto;
+      background: none;
+      border: none;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo::before {
+      content: '✦';
+      color: var(--gold-bright);
+      font-size: 14px;
+    }
+    nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+    nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gold); }
+    .nav-cta { font-size: 12px; padding: 10px 22px; }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .hero-img { height: 400px; position: relative; overflow: hidden; }
+    .hero-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+    .hero-img::before, .hero-img::after {
+      content: '';
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--gold);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .hero-img::before {
+      top: -1px; left: -1px;
+      border-right: none; border-bottom: none;
+    }
+    .hero-img::after {
+      bottom: -1px; right: -1px;
+      border-left: none; border-top: none;
+    }
+    .hero-ctas { display: flex; gap: 16px; margin-top: 28px; }
+    .trust {
+      display: flex; gap: 32px; margin-top: 40px;
+      color: var(--text-muted); font-size: 13px;
+      border-top: 1px solid var(--gold-faint);
+      padding-top: 24px;
+    }
+
+    /* Placeholders (keep dim gold dashed so they read as wireframe still) */
+    .placeholder {
+      background: rgba(212, 175, 55, 0.03);
+      border: 1px dashed var(--gold-dim);
+      color: var(--gold-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 13px;
+      font-style: italic;
+    }
+
+    /* Cards: shared treatment with gold corner ornaments */
+    .service-card,
+    .price-card,
+    .review-card,
+    .faq-item {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--gold-faint);
+      padding: 32px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .service-card::before, .service-card::after,
+    .price-card::before, .price-card::after,
+    .review-card::before, .review-card::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--gold);
+      pointer-events: none;
+    }
+    .service-card::before, .price-card::before, .review-card::before {
+      top: -1px; left: -1px;
+      border-right: none; border-bottom: none;
+    }
+    .service-card::after, .price-card::after, .review-card::after {
+      bottom: -1px; right: -1px;
+      border-left: none; border-top: none;
+    }
+    .service-card:hover, .price-card:hover, .review-card:hover {
+      border-color: var(--gold-dim);
+      box-shadow: 0 0 32px rgba(212, 175, 55, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Services */
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 20px;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .service-icon svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 8px rgba(212,175,55,0.15)); }
+
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+    .price-card { text-align: center; padding: 36px 28px; }
+    .price {
+      font-family: var(--display);
+      font-size: 38px;
+      font-weight: 700;
+      margin: 20px 0;
+      background: linear-gradient(135deg, var(--gold-bright), var(--gold) 50%, var(--gold-deep));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .price-card ul { text-align: left; padding-left: 20px; color: var(--text-muted); }
+
+    /* Gallery */
+    .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+    .gallery-item {
+      height: 200px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gold-faint);
+      transition: border-color 0.3s ease;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .gallery-item:hover { border-color: var(--gold-dim); }
+    .gallery-item:hover img { transform: scale(1.06); }
+    .gallery-item::before, .gallery-item::after {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid var(--gold);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .gallery-item::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .gallery-item::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+    .gallery-item:hover::before, .gallery-item:hover::after { opacity: 1; }
+
+    /* Service area */
+    .area-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
+    .map-placeholder { height: 340px; }
+    .map-container {
+      height: 360px;
+      position: relative;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.04), rgba(212, 175, 55, 0.01));
+      border: 1px solid var(--gold-faint);
+      overflow: hidden;
+    }
+    .map-container svg { width: 100%; height: 100%; display: block; }
+    .map-container::before, .map-container::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--gold);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .map-container::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+    .map-container::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+    .area-list { columns: 2; color: var(--text-muted); padding-left: 20px; }
+    .area-list li { margin-bottom: 6px; }
+
+    /* Reviews */
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+    .stars { color: var(--gold); margin-bottom: 12px; font-size: 14px; letter-spacing: 0.15em; }
+    .reviewer {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 20px; padding-top: 16px;
+      border-top: 1px solid var(--gold-faint);
+    }
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--gold-dim);
+      box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.08);
+    }
+
+    /* FAQ */
+    .faq-item { padding: 24px 28px; margin-bottom: 14px; }
+    .faq-item h3 { margin-bottom: 8px; }
+
+    /* Quote form */
+    .quote-row { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; }
+    form { display: grid; gap: 16px; }
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    label {
+      font-size: 11px;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: var(--display);
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--gold-faint);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--text);
+      font: inherit;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: rgba(212, 175, 55, 0.04);
+    }
+    textarea { min-height: 100px; resize: vertical; }
+    #quote { background: linear-gradient(180deg, rgba(212,175,55,0.04), transparent 60%); }
+
+    /* Footer */
+    footer {
+      background: #050505;
+      color: var(--text-muted);
+      padding: 64px 0 24px;
+      border-top: 1px solid var(--gold-dim);
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+    footer h4 {
+      color: var(--gold);
+      margin: 0 0 16px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-family: var(--display);
+    }
+    footer ul { list-style: none; padding: 0; margin: 0; }
+    footer li { margin-bottom: 10px; font-size: 14px; }
+    footer a { color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--gold); }
+    .copyright {
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+      margin-top: 40px;
+      padding-top: 20px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 36px; }
+      h2 { font-size: 26px; }
+      .hero, .services-grid, .pricing-grid, .gallery-grid,
+      .area-row, .reviews-grid, .quote-row, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      nav ul { display: none; }
+      section { padding: 64px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER / NAV -->
+  <header>
+    <div class="container nav">
+      <div class="logo">Jimmy's Cleaning Genies</div>
+      <nav>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#area">Service Area</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a href="tel:+18126650240" class="btn nav-cta">Call (812) 665-0240</a>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="container">
+    <div class="hero">
+      <div>
+        <h1>Clean windows. Sharp lawns. North Utah County.</h1>
+        <p style="font-size: 18px;">
+          Streak-free window washing and full-service lawn care — mowing, weeding, and edging.
+          Locally owned. Free quotes in 24 hours.
+        </p>
+        <div class="hero-ctas">
+          <a href="#quote" class="btn btn-primary">Get a Free Quote</a>
+          <a href="tel:+18126650240" class="btn">Call Now</a>
+        </div>
+        <div class="trust">
+          <div>[★ 4.9 / 200+ Reviews]</div>
+          <div>[Locally Owned]</div>
+        </div>
+      </div>
+      <div class="placeholder hero-img">
+        <img src="images/hero.jpg" alt="A beautiful home with sparkling clean windows in North Utah County" onerror="this.remove()" />
+        <span>[ HERO IMAGE — drop your photo at images/hero.jpg ]</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <h2>Our Services</h2>
+      <p>What we do, in plain terms.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="7" width="38" height="42"/>
+              <line x1="28" y1="7" x2="28" y2="49"/>
+              <line x1="9" y1="28" x2="47" y2="28"/>
+              <path d="M37 16 L37.7 18.6 L40.3 19.3 L37.7 20 L37 22.6 L36.3 20 L33.7 19.3 L36.3 18.6 Z" fill="currentColor" stroke="none"/>
+              <path d="M16 38 L16.3 39.4 L17.7 39.7 L16.3 40 L16 41.4 L15.7 40 L14.3 39.7 L15.7 39.4 Z" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3>Window Washing</h3>
+          <p>Interior + exterior, screens, sills, and tracks. Streak-free, every time.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon" aria-hidden="true">
+            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="46" x2="49" y2="46"/>
+              <path d="M13 46 Q13.5 38 15 30 Q15.3 38 13 46"/>
+              <path d="M20 46 Q20.5 32 23 22 Q23.3 32 20 46"/>
+              <path d="M28 46 Q28.5 30 30 18 Q30.3 30 28 46"/>
+              <path d="M36 46 Q36.5 32 38 22 Q38.3 32 36 46"/>
+              <path d="M43 46 Q43.5 38 45 30 Q45.3 38 43 46"/>
+              <path d="M46 12 L46.5 13.8 L48.3 14.3 L46.5 14.8 L46 16.6 L45.5 14.8 L43.7 14.3 L45.5 13.8 Z" fill="currentColor" stroke="none"/>
+            </svg>
+          </div>
+          <h3>Lawn Care</h3>
+          <p>Full-service yard maintenance on a weekly or bi-weekly schedule:</p>
+          <ul style="color: var(--muted); padding-left: 20px; margin: 8px 0 0;">
+            <li>Mowing</li>
+            <li>Edging</li>
+            <li>Weeding</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing">
+    <div class="container">
+      <h2>Simple, Honest Pricing</h2>
+      <p style="text-align:center;">Flat rate per pane for windows. Hourly pricing for lawn care. No hidden fees.</p>
+
+      <div style="text-align:center; margin: 56px 0 8px; font-family: var(--display); font-size: 13px; letter-spacing: 0.4em; color: var(--gold); text-transform: uppercase;">
+        ✦ &nbsp; Window Washing &nbsp; ✦
+      </div>
+
+      <div style="text-align:center; margin: 24px auto 32px; padding: 40px; max-width: 640px; border: 1px solid var(--gold); background: var(--bg-card); position: relative;">
+        <div style="font-family: var(--display); font-size: 72px; font-weight: 700; line-height: 1; background: linear-gradient(135deg, var(--gold-bright), var(--gold) 50%, var(--gold-deep)); -webkit-background-clip: text; background-clip: text; color: transparent;">$5</div>
+        <div style="color: var(--text); font-size: 18px; margin-top: 12px; letter-spacing: 0.04em;">per window pane — inside &amp; outside, screens &amp; sills included</div>
+        <div style="color: var(--text-muted); font-size: 13px; margin-top: 16px; font-style: italic;">
+          Small divided-light panes (multiple small panes in one frame) are half price — $2.50 per pane.
+        </div>
+      </div>
+
+      <div class="pricing-grid">
+        <div class="price-card">
+          <h3>10 window panes</h3>
+          <div class="price">$50</div>
+          <a href="#quote" class="btn">Book Now</a>
+        </div>
+        <div class="price-card" style="border-color: var(--gold); box-shadow: 0 0 32px rgba(212, 175, 55, 0.12);">
+          <h3>20 window panes</h3>
+          <div class="price">$100</div>
+          <a href="#quote" class="btn btn-primary">Book Now</a>
+        </div>
+        <div class="price-card">
+          <h3>30+ window panes</h3>
+          <div class="price">Custom</div>
+          <a href="#quote" class="btn">Get a Quote</a>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin: 56px 0 8px; font-family: var(--display); font-size: 12px; letter-spacing: 0.35em; color: var(--gold-bright); text-transform: uppercase;">
+        Quarterly Subscription — Save 20%
+      </div>
+      <p style="text-align:center; color: var(--text-muted); font-size: 14px; max-width: 520px; margin: 0 auto 24px;">
+        We come back every 3 months to keep your windows sparkling. Lock in a lower rate.
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 720px; margin: 0 auto;">
+        <div class="price-card">
+          <h3>10 panes / quarter</h3>
+          <div class="price">$40</div>
+          <p style="color: var(--text-muted); font-size: 13px; letter-spacing: 0.05em;">Every 3 months · billed quarterly</p>
+          <a href="#quote" class="btn">Subscribe</a>
+        </div>
+        <div class="price-card">
+          <h3>20 panes / quarter</h3>
+          <div class="price">$80</div>
+          <p style="color: var(--text-muted); font-size: 13px; letter-spacing: 0.05em;">Every 3 months · billed quarterly</p>
+          <a href="#quote" class="btn">Subscribe</a>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin: 72px 0 8px; font-family: var(--display); font-size: 13px; letter-spacing: 0.4em; color: var(--gold); text-transform: uppercase;">
+        ✦ &nbsp; Lawn Care &nbsp; ✦
+      </div>
+
+      <div style="text-align:center; margin: 24px auto 0; padding: 40px; max-width: 640px; border: 1px solid var(--gold); background: var(--bg-card); position: relative;">
+        <div style="font-family: var(--display); font-size: 72px; font-weight: 700; line-height: 1; background: linear-gradient(135deg, var(--gold-bright), var(--gold) 50%, var(--gold-deep)); -webkit-background-clip: text; background-clip: text; color: transparent;">$40</div>
+        <div style="color: var(--text); font-size: 18px; margin-top: 12px; letter-spacing: 0.04em;">per hour — mowing, edging, and weeding</div>
+        <div style="color: var(--text-muted); font-size: 13px; margin-top: 16px; font-style: italic;">
+          Same hourly rate for any lawn care service we provide.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="container">
+      <h2>Recent Work</h2>
+      <p style="text-align:center;">The kind of clean we deliver across North Utah County.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img src="images/gallery1.jpg" alt="Beautiful home exterior at twilight with warm garden lighting" /></div>
+        <div class="gallery-item"><img src="images/gallery2.jpg" alt="Modern home exterior with pristine pool and manicured lawn" /></div>
+        <div class="gallery-item"><img src="images/gallery5.jpg" alt="Professional window cleaning with squeegee" /></div>
+        <div class="gallery-item"><img src="images/gallery3.jpg" alt="Classic American family home with well-maintained lawn" /></div>
+        <div class="gallery-item"><img src="images/gallery7.jpg" alt="Freshly mowed green lawn" /></div>
+        <div class="gallery-item"><img src="images/gallery4.jpg" alt="Elegant suburban estate surrounded by lush greenery" /></div>
+        <div class="gallery-item"><img src="images/gallery6.jpg" alt="Streak-free window cleaning with microfiber cloth" /></div>
+        <div class="gallery-item"><img src="images/gallery8.jpg" alt="Tranquil countryside lawn freshly manicured" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICE AREA -->
+  <section id="area">
+    <div class="container">
+      <h2>Serving Cedar Hills, American Fork, Alpine, Pleasant Grove &amp; Highland</h2>
+      <div class="area-row">
+        <div class="map-container">
+          <svg viewBox="0 0 480 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+            <defs>
+              <linearGradient id="mtnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(212,175,55,0)"/>
+                <stop offset="100%" stop-color="rgba(212,175,55,0.12)"/>
+              </linearGradient>
+              <radialGradient id="cityGlow">
+                <stop offset="0%" stop-color="rgba(240,210,122,0.55)"/>
+                <stop offset="100%" stop-color="rgba(240,210,122,0)"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Wasatch mountains (east) -->
+            <path d="M380 320 L380 200 L395 165 L410 195 L420 130 L435 170 L450 110 L465 150 L480 130 L480 320 Z"
+                  fill="url(#mtnGrad)" stroke="rgba(212,175,55,0.22)" stroke-width="0.6"/>
+            <path d="M395 320 L395 240 L410 220 L425 240 L440 210 L455 230 L470 215 L480 235 L480 320 Z"
+                  fill="rgba(212,175,55,0.04)" stroke="rgba(212,175,55,0.13)" stroke-width="0.4"/>
+
+            <!-- I-15 corridor hint (west) -->
+            <path d="M75 20 Q73 80 70 160 Q67 240 65 320" fill="none"
+                  stroke="rgba(212,175,55,0.28)" stroke-width="1" stroke-dasharray="3 4"/>
+            <text x="38" y="160" fill="rgba(212,175,55,0.5)" font-family="Inter, sans-serif"
+                  font-size="9" letter-spacing="2">I-15</text>
+
+            <!-- Connections -->
+            <g stroke="rgba(212,175,55,0.28)" stroke-width="0.6" stroke-dasharray="2 3" fill="none">
+              <line x1="240" y1="60" x2="140" y2="140"/>
+              <line x1="240" y1="60" x2="320" y2="130"/>
+              <line x1="140" y1="140" x2="320" y2="130"/>
+              <line x1="140" y1="140" x2="130" y2="240"/>
+              <line x1="320" y1="130" x2="350" y2="250"/>
+              <line x1="130" y1="240" x2="350" y2="250"/>
+            </g>
+
+            <!-- Cities -->
+            <g font-family="Cinzel, Georgia, serif" font-size="13" font-weight="600">
+              <g>
+                <circle cx="240" cy="60" r="14" fill="url(#cityGlow)"/>
+                <circle cx="240" cy="60" r="10" fill="none" stroke="#d4af37" stroke-width="0.7" opacity="0.5"/>
+                <circle cx="240" cy="60" r="4.5" fill="#f0d27a"/>
+                <text x="240" y="42" fill="#f0d27a" text-anchor="middle">Alpine</text>
+              </g>
+              <g>
+                <circle cx="140" cy="140" r="14" fill="url(#cityGlow)"/>
+                <circle cx="140" cy="140" r="10" fill="none" stroke="#d4af37" stroke-width="0.7" opacity="0.5"/>
+                <circle cx="140" cy="140" r="4.5" fill="#f0d27a"/>
+                <text x="140" y="124" fill="#f0d27a" text-anchor="middle">Highland</text>
+              </g>
+              <g>
+                <circle cx="320" cy="130" r="14" fill="url(#cityGlow)"/>
+                <circle cx="320" cy="130" r="10" fill="none" stroke="#d4af37" stroke-width="0.7" opacity="0.5"/>
+                <circle cx="320" cy="130" r="4.5" fill="#f0d27a"/>
+                <text x="320" y="114" fill="#f0d27a" text-anchor="middle">Cedar Hills</text>
+              </g>
+              <g>
+                <circle cx="130" cy="240" r="14" fill="url(#cityGlow)"/>
+                <circle cx="130" cy="240" r="10" fill="none" stroke="#d4af37" stroke-width="0.7" opacity="0.5"/>
+                <circle cx="130" cy="240" r="4.5" fill="#f0d27a"/>
+                <text x="130" y="266" fill="#f0d27a" text-anchor="middle">American Fork</text>
+              </g>
+              <g>
+                <circle cx="350" cy="250" r="14" fill="url(#cityGlow)"/>
+                <circle cx="350" cy="250" r="10" fill="none" stroke="#d4af37" stroke-width="0.7" opacity="0.5"/>
+                <circle cx="350" cy="250" r="4.5" fill="#f0d27a"/>
+                <text x="350" y="276" fill="#f0d27a" text-anchor="middle">Pleasant Grove</text>
+              </g>
+            </g>
+
+            <!-- Compass -->
+            <g transform="translate(440, 30)" fill="#d4af37">
+              <text font-family="Cinzel, serif" font-size="10" font-weight="700" text-anchor="middle">N</text>
+              <line x1="0" y1="6" x2="0" y2="22" stroke="#d4af37" stroke-width="0.8"/>
+              <path d="M0 6 L-3 14 L0 11 L3 14 Z"/>
+            </g>
+
+            <!-- Title -->
+            <text x="20" y="28" fill="rgba(212,175,55,0.6)" font-family="Cinzel, serif"
+                  font-size="10" font-weight="600" letter-spacing="3">NORTH UTAH COUNTY</text>
+          </svg>
+        </div>
+        <div>
+          <p>Locally based and locally focused — we serve these North Utah County cities:</p>
+          <ul class="area-list">
+            <li>Cedar Hills</li>
+            <li>American Fork</li>
+            <li>Alpine</li>
+            <li>Pleasant Grove</li>
+            <li>Highland</li>
+          </ul>
+          <p style="margin-top:16px;">Outside this area? Call us — we travel for larger jobs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews">
+    <div class="container">
+      <h2>What Customers Say</h2>
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="stars">★ ★ ★ ★ ★</div>
+          <p>"Jimmy walked our whole two-story home with us first, then made it look like we'd installed new glass. The morning sun comes through completely different now — booking him again in the spring."</p>
+          <div class="reviewer">
+            <img class="avatar" src="images/avatar1.jpg" alt="Sarah M., Highland customer" />
+            <div><strong>Sarah M.</strong><br><small style="color:var(--muted);">Highland</small></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★ ★ ★ ★ ★</div>
+          <p>"Switched to the quarterly plan after the first visit and haven't looked back. Fair pricing, no upsells, and our windows always look perfect when guests come over."</p>
+          <div class="reviewer">
+            <img class="avatar" src="images/avatar2.jpg" alt="Marcus T., Cedar Hills customer" />
+            <div><strong>Marcus T.</strong><br><small style="color:var(--muted);">Cedar Hills</small></div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="stars">★ ★ ★ ★ ★</div>
+          <p>"Booked the lawn care after Jimmy finished our windows and now I have my Saturdays back. The kids keep pointing out how clean the patio doors are. Cannot recommend enough."</p>
+          <div class="reviewer">
+            <img class="avatar" src="images/avatar3.jpg" alt="David R., American Fork customer" />
+            <div><strong>David R.</strong><br><small style="color:var(--muted);">American Fork</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2>Frequently Asked</h2>
+      <div class="faq-item"><h3>How long does a typical job take?</h3><p>A typical job takes about an hour.</p></div>
+      <div class="faq-item"><h3>Do I need to be home?</h3><p>No, you don't need to be home.</p></div>
+      <div class="faq-item"><h3>How do I pay?</h3><p>We accept cash, check, or Venmo for now.</p></div>
+    </div>
+  </section>
+
+  <!-- QUOTE FORM -->
+  <section id="quote" style="background:#fff;">
+    <div class="container">
+      <div class="quote-row">
+        <div>
+          <h2>Get a Free Quote</h2>
+          <p>Tell us about your home or business and we'll send a quote within 24 hours.</p>
+          <p><strong>Phone:</strong> <a href="tel:+18126650240">(812) 665-0240</a><br>
+             <strong>Email:</strong> hello@[domain].com<br>
+             <strong>Hours:</strong> Mon–Sat, 7am–6pm</p>
+        </div>
+        <form>
+          <div class="row-2">
+            <div><label>First Name</label><input type="text" /></div>
+            <div><label>Last Name</label><input type="text" /></div>
+          </div>
+          <div class="row-2">
+            <div><label>Email</label><input type="email" /></div>
+            <div><label>Phone</label><input type="tel" /></div>
+          </div>
+          <div><label>Address</label><input type="text" /></div>
+          <div class="row-2">
+            <div>
+              <label>Property Type</label>
+              <select>
+                <option>Single-story home</option>
+                <option>Two-story home</option>
+                <option>Condo / Apartment</option>
+                <option>Storefront</option>
+                <option>Office / Commercial</option>
+              </select>
+            </div>
+            <div>
+              <label>Approx. # of Windows</label>
+              <select>
+                <option>1–10</option>
+                <option>11–20</option>
+                <option>21–30</option>
+                <option>30+</option>
+              </select>
+            </div>
+          </div>
+          <div><label>Notes (optional)</label><textarea></textarea></div>
+          <button type="submit" class="btn btn-primary" style="justify-self:start;">Send Quote Request</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h4>Jimmy's Cleaning Genies</h4>
+          <p style="color:#bbb;">Locally owned window washing &amp; lawn care, serving Utah.</p>
+          <p style="color:#bbb;">[Address line]<br>[Utah City], UT [ZIP]</p>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#services">Window Washing</a></li>
+            <li><a href="#services">Lawn Care</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#reviews">Reviews</a></li>
+            <li><a href="#area">Service Area</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#quote">Get a Quote</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="tel:+18126650240" style="color:#bbb;">(812) 665-0240</a></li>
+            <li>hello@[domain].com</li>
+            <li>Mon–Sat, 7am–6pm</li>
+          </ul>
+        </div>
+      </div>
+      <div class="copyright">
+        © 2026 Jimmy's Cleaning Genies. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
