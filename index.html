@@ -313,6 +313,27 @@
     .gallery-item::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
     .gallery-item::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
     .gallery-item:hover::before, .gallery-item:hover::after { opacity: 1; }
+    .gallery-label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 3;
+      padding: 3px 10px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-family: var(--display);
+      border-radius: 2px;
+      background: rgba(10,10,10,0.72);
+      color: var(--muted);
+      border: 1px solid rgba(212,175,55,0.25);
+    }
+    .gallery-label.gl-after {
+      background: rgba(212,175,55,0.88);
+      color: #111;
+      border-color: transparent;
+    }
 
     /* Service area */
     .area-row { display: grid; grid-template-columns: 1.2fr 1fr; gap: 40px; align-items: center; }
@@ -736,17 +757,17 @@
   <!-- GALLERY -->
   <section id="gallery">
     <div class="container">
-      <h2>Recent Work</h2>
+      <h2>Before &amp; After</h2>
       <p style="text-align:center;">The kind of clean we deliver across North Utah County.</p>
       <div class="gallery-grid">
-        <div class="gallery-item"><img src="images/gallery1.jpg" alt="Beautiful home exterior at twilight with warm garden lighting" /></div>
-        <div class="gallery-item"><img src="images/gallery2.jpg" alt="Modern home exterior with pristine pool and manicured lawn" /></div>
-        <div class="gallery-item"><img src="images/gallery5.jpg" alt="Professional window cleaning with squeegee" /></div>
-        <div class="gallery-item"><img src="images/gallery3.jpg" alt="Classic American family home with well-maintained lawn" /></div>
-        <div class="gallery-item"><img src="images/gallery7.jpg" alt="Freshly mowed green lawn" /></div>
-        <div class="gallery-item"><img src="images/gallery4.jpg" alt="Elegant suburban estate surrounded by lush greenery" /></div>
-        <div class="gallery-item"><img src="images/gallery6.jpg" alt="Streak-free window cleaning with microfiber cloth" /></div>
-        <div class="gallery-item"><img src="images/gallery8.jpg" alt="Tranquil countryside lawn freshly manicured" /></div>
+        <div class="gallery-item"><span class="gallery-label">Before</span><img src="images/gallery1.jpg" alt="Dusty, grimy window before cleaning" /></div>
+        <div class="gallery-item"><span class="gallery-label gl-after">After</span><img src="images/gallery2.jpg" alt="Crystal clear window after professional cleaning" /></div>
+        <div class="gallery-item"><span class="gallery-label">Before</span><img src="images/gallery3.jpg" alt="Dirty, streaked exterior windows before washing" /></div>
+        <div class="gallery-item"><span class="gallery-label gl-after">After</span><img src="images/gallery4.jpg" alt="Sparkling clean home exterior windows after washing" /></div>
+        <div class="gallery-item"><span class="gallery-label">Before</span><img src="images/gallery5.jpg" alt="Overgrown, shaggy lawn before lawn care service" /></div>
+        <div class="gallery-item"><span class="gallery-label gl-after">After</span><img src="images/gallery6.jpg" alt="Beautifully manicured lawn after mowing and edging" /></div>
+        <div class="gallery-item"><span class="gallery-label">Before</span><img src="images/gallery7.jpg" alt="Neglected, weedy yard before lawn care" /></div>
+        <div class="gallery-item"><span class="gallery-label gl-after">After</span><img src="images/gallery8.jpg" alt="Neat, trimmed suburban lawn after full lawn care" /></div>
       </div>
     </div>
   </section>
